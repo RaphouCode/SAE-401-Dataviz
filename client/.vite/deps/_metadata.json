@@ -1,0 +1,60 @@
+{
+  "hash": "300ad0ee",
+  "configHash": "6ecedd09",
+  "lockfileHash": "b9528a5e",
+  "browserHash": "2dd063ab",
+  "optimized": {
+    "chart.js": {
+      "src": "../../node_modules/chart.js/dist/chart.js",
+      "file": "chart__js.js",
+      "fileHash": "83253eff",
+      "needsInterop": false
+    },
+    "react-chartjs-2": {
+      "src": "../../node_modules/react-chartjs-2/dist/index.js",
+      "file": "react-chartjs-2.js",
+      "fileHash": "a3a14d01",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "cca90e2d",
+      "needsInterop": true
+    },
+    "react-simple-maps": {
+      "src": "../../node_modules/react-simple-maps/dist/index.umd.js",
+      "file": "react-simple-maps.js",
+      "fileHash": "2afaed29",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "6b513cf4",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "d20700d4",
+      "needsInterop": true
+    },
+    "styled-components": {
+      "src": "../../node_modules/styled-components/dist/styled-components.browser.esm.js",
+      "file": "styled-components.js",
+      "fileHash": "30439187",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chart-BNy7vf4B": {
+      "file": "chart-BNy7vf4B.js",
+      "isDynamicEntry": false
+    },
+    "react-BQO5LU4N": {
+      "file": "react-BQO5LU4N.js",
+      "isDynamicEntry": false
+    }
+  }
+}
