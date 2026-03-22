@@ -29,16 +29,6 @@ class StatistiqueController extends AbstractController
         return $this->json($departements, 200, [], ['groups' => 'departement']);
     }
 
-    #[Route('/api/departements/{code}', methods: ['GET'])]
-    public function getOneDepartement($code, EntityManagerInterface $entityManager): JsonResponse
-    {
-        $departement = $entityManager
-            ->getRepository(Departement::class)
-            ->findOneBy(['code' => $code]);
-
-        return $this->json($departement, 200, [], ['groups' => 'departement']);
-    }
-
     #[Route('/api/regions', methods: ['GET'])]
     public function region(EntityManagerInterface $entityManager): JsonResponse
     {
@@ -46,8 +36,10 @@ class StatistiqueController extends AbstractController
 
         return $this->json($regions, 200, [], ['groups' => 'region']);
     }
-//json qui renvoie le taux de pauvreté pour un département donné, avec l'année correspondante, en utilisant les données de la table stats_demographiques.
-    #[Route('/api/departements/{code}/taux-pauvrete', methods: ['GET'])]
+
+    // ⚠️ ROUTES AVEC PARAMÈTRES APRÈS
+
+    #[Route('/api/departements/{code}/taux-pauvrete', methods: ['GET'], requirements: ['code' => '\d+'])]
     public function tauxPauvrete(string $code, EntityManagerInterface $entityManager): JsonResponse
     {
         $departement = $entityManager
@@ -59,7 +51,7 @@ class StatistiqueController extends AbstractController
         }
 
         $stats = $entityManager
-            ->getRepository(\App\Entity\StatsDemographiques::class)
+            ->getRepository(StatsDemographiques::class)
             ->findBy(['departement' => $departement], ['annee' => 'ASC']);
 
         $taux = array_map(fn($stat) => [
@@ -74,15 +66,35 @@ class StatistiqueController extends AbstractController
         ], 200);
     }
 
+    #[Route('/api/departements/{code}', methods: ['GET'], requirements: ['code' => '\d+'])]
+    public function getOneDepartement(string $code, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $departement = $entityManager
+            ->getRepository(Departement::class)
+            ->findOneBy(['code' => $code]);
+
+        if (!$departement) {
+            return $this->json(['error' => 'Département non trouvé'], 404);
+        }
+
+        return $this->json($departement, 200, [], ['groups' => 'departement']);
+    }
+
     #[Route('/api/national/taux-chomage', methods: ['GET'])]
     public function tauxChomageNational(EntityManagerInterface $entityManager): JsonResponse
     {
         $stats = $entityManager->getRepository(StatsDemographiques::class)->findAll();
 
-        $valeurs = array_filter(array_map(fn($stat) => $stat->getTauxChomage() !== null ? (float) $stat->getTauxChomage() : null, $stats));
+        $valeurs = array_filter(array_map(
+            fn($stat) => $stat->getTauxChomage() !== null ? (float) $stat->getTauxChomage() : null,
+            $stats
+        ));
 
         if (empty($valeurs)) {
-            return $this->json(['tauxChomageMoyen' => null, 'message' => 'Aucune donnée disponible'], 200);
+            return $this->json([
+                'tauxChomageMoyen' => null,
+                'message' => 'Aucune donnée disponible'
+            ], 200);
         }
 
         $moyenne = array_sum($valeurs) / count($valeurs);
@@ -105,16 +117,11 @@ class StatistiqueController extends AbstractController
                 : null
         );
 
-        $tauxPauvrete = $moyenne($demographiques, fn($s) => $s->getTauxPauvrete() !== null ? (float) $s->getTauxPauvrete() : null);
-        $tauxChomage = $moyenne($demographiques, fn($s) => $s->getTauxChomage() !== null ? (float) $s->getTauxChomage() : null);
-        $tauxLogementsSociaux = $moyenne($logements, fn($s) => $s->getTauxLogementsSociaux() !== null ? (float) $s->getTauxLogementsSociaux() : null);
-        $tauxEnergivores = $moyenne($logements, fn($s) => $s->getParcSocialTauxEnergivores() !== null ? (float) $s->getParcSocialTauxEnergivores() : null);
-
         return $this->json([
-            'tauxPauvreteMoyen' => $tauxPauvrete,
-            'tauxChomageMoyen' => $tauxChomage,
-            'tauxLogementsSociauxMoyen' => $tauxLogementsSociaux,
-            'tauxEnergivoresMoyen' => $tauxEnergivores,
+            'tauxPauvreteMoyen' => $moyenne($demographiques, fn($s) => $s->getTauxPauvrete() !== null ? (float) $s->getTauxPauvrete() : null),
+            'tauxChomageMoyen' => $moyenne($demographiques, fn($s) => $s->getTauxChomage() !== null ? (float) $s->getTauxChomage() : null),
+            'tauxLogementsSociauxMoyen' => $moyenne($logements, fn($s) => $s->getTauxLogementsSociaux() !== null ? (float) $s->getTauxLogementsSociaux() : null),
+            'tauxEnergivoresMoyen' => $moyenne($logements, fn($s) => $s->getParcSocialTauxEnergivores() !== null ? (float) $s->getParcSocialTauxEnergivores() : null),
             'nbRecordsDemographiques' => count($demographiques),
             'nbRecordsLogement' => count($logements),
         ], 200);

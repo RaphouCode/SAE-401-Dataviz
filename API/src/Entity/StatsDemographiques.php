@@ -35,7 +35,7 @@ class StatsDemographiques
     #[Groups(['departement', 'region'])]
     private ?string $densite = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
+    #[ORM\Column(name: 'variation_pop_10ans', type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
     #[Groups(['departement', 'region'])]
     private ?string $variationPop10ans = null;
 
@@ -47,11 +47,11 @@ class StatsDemographiques
     #[Groups(['departement', 'region'])]
     private ?string $soldeMigratoire = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
+    #[ORM\Column(name: 'pop_moins_20ans', type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
     #[Groups(['departement', 'region'])]
     private ?string $popMoins20ans = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
+    #[ORM\Column(name: 'pop_60ans_plus', type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
     #[Groups(['departement', 'region'])]
     private ?string $pop60ansPlus = null;
 

@@ -47,7 +47,7 @@ class StatsLogement
     #[Groups(['logement', 'departement', 'region'])]
     private ?string $tauxLogementsIndividuels = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: 'construction_neuve_moy_10ans', nullable: true)]
     #[Groups(['logement'])]
     private ?int $constructionNeuveMoy10ans = null;
 
