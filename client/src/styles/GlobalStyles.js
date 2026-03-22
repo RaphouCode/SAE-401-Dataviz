@@ -51,7 +51,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.text};
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   ::-webkit-scrollbar {

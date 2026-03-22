@@ -44,7 +44,7 @@ const DEPARTEMENTS_LIST = [
 const HeaderWrapper = styled.header`
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   background: ${({ theme }) => theme.colors.bg};
   padding: 0 2rem;
   height: 80px;
