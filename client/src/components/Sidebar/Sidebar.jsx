@@ -26,7 +26,7 @@ const Overlay = styled.div`
 `;
 
 const Panel = styled.aside`
-  width: 460px;
+  width: min(400px, 35vw);
   background: white;
   display: flex;
   flex-direction: column;

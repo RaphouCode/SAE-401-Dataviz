@@ -66,7 +66,7 @@ class StatistiqueController extends AbstractController
         ], 200);
     }
 
-    #[Route('/api/departements/{code}', methods: ['GET'], requirements: ['code' => '\d+'])]
+    #[Route('/api/departements/{code}', methods: ['GET'], requirements: ['code' => '[a-zA-Z0-9]+'])]
     public function getOneDepartement(string $code, EntityManagerInterface $entityManager): JsonResponse
     {
         $departement = $entityManager
@@ -125,5 +125,34 @@ class StatistiqueController extends AbstractController
             'nbRecordsDemographiques' => count($demographiques),
             'nbRecordsLogement' => count($logements),
         ], 200);
+    }
+
+    #[Route('/api/map/donnees', methods: ['GET'])]
+    public function mapDonnees(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $departements = $entityManager->getRepository(Departement::class)->findAll();
+        
+        $mapData = [];
+        foreach ($departements as $dept) {
+            $code = $dept->getCode();
+            
+            // On veut les données les plus récentes
+            $latestDemo = $entityManager->getRepository(StatsDemographiques::class)
+                ->findOneBy(['departement' => $dept], ['annee' => 'DESC']);
+            
+            $latestLogement = $entityManager->getRepository(StatsLogement::class)
+                ->findOneBy(['departement' => $dept], ['annee' => 'DESC']);
+
+            $mapData[$code] = [
+                'code' => $code,
+                'nom' => $dept->getNom(),
+                'tauxPauvrete' => $latestDemo?->getTauxPauvrete() !== null ? (float) $latestDemo->getTauxPauvrete() : null,
+                'tauxChomage' => $latestDemo?->getTauxChomage() !== null ? (float) $latestDemo->getTauxChomage() : null,
+                'tauxLogementsSociaux' => $latestLogement?->getTauxLogementsSociaux() !== null ? (float) $latestLogement->getTauxLogementsSociaux() : null,
+                'tauxEnergivores' => $latestLogement?->getParcSocialTauxEnergivores() !== null ? (float) $latestLogement->getParcSocialTauxEnergivores() : null,
+            ];
+        }
+
+        return $this->json($mapData, 200);
     }
 }

@@ -20,7 +20,6 @@ class StatsLogement
 
     #[ORM\ManyToOne(inversedBy: 'statsLogements')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Groups(['logement'])]
     private ?Departement $departement = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -48,35 +47,35 @@ class StatsLogement
     private ?string $tauxLogementsIndividuels = null;
 
     #[ORM\Column(name: 'construction_neuve_moy_10ans', nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?int $constructionNeuveMoy10ans = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $construction = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?int $parcSocialNb = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialMisEnLocation = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialDemolis = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialVentes = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialTauxVacants = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialTauxIndividuels = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
@@ -88,7 +87,7 @@ class StatsLogement
     private ?string $parcSocialAgeMoyen = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3, nullable: true)]
-    #[Groups(['logement'])]
+    #[Groups(['logement', 'departement'])]
     private ?string $parcSocialTauxEnergivores = null;
 
     public function getId(): ?int

@@ -4,18 +4,18 @@ const ObservatoireContext = createContext(null);
 
 export const CALQUES = [
   {
-    id: 'logementSocial',
-    label: 'Logements sociaux',
-    unit: '%',
-    palette: 'Blues',
-    description: 'Part des logements HLM',
-  },
-  {
     id: 'pauvrete',
     label: 'Taux de pauvreté',
     unit: '%',
     palette: 'Reds',
     description: 'Population sous le seuil de pauvreté',
+  },
+  {
+    id: 'logementSocial',
+    label: 'Logements sociaux',
+    unit: '%',
+    palette: 'Blues',
+    description: 'Part des logements HLM',
   },
   {
     id: 'energivores',
@@ -24,11 +24,18 @@ export const CALQUES = [
     palette: 'YlOrRd',
     description: 'Logements classés E, F ou G',
   },
+  {
+    id: 'chomage',
+    label: 'Taux de chômage',
+    unit: '%',
+    palette: 'Purples',
+    description: 'Taux de chômage au sens du BIT',
+  },
 ];
 
 export function ObservatoireProvider({ children }) {
   const [departementSelectionne, setDepartementSelectionne] = useState(null);
-  const [calqueActif, setCalqueActif] = useState(CALQUES[0]);
+  const [calqueActif, setCalqueActif] = useState(CALQUES[0]); // Par défaut: Pauvreté
 
   return (
     <ObservatoireContext.Provider

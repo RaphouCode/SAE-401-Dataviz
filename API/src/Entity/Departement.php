@@ -35,6 +35,7 @@ class Departement
      * @var Collection<int, StatsDemographiques>
      */
     #[ORM\OneToMany(targetEntity: StatsDemographiques::class, mappedBy: 'departement', orphanRemoval: true)]
+    #[Groups(['departement'])]
     private Collection $statsDemographiques;
 
     /**

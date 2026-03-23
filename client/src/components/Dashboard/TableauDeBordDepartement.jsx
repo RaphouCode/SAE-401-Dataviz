@@ -128,11 +128,90 @@ const LoadingText = styled.div`
   font-weight: 600;
 `;
 
+const ContextText = styled.div`
+  font-size: 0.8rem;
+  color: #475569;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border-left: 3px solid ${({ theme }) => theme.colors.primary};
+  margin: 0.5rem 0 1rem 0;
+  line-height: 1.4;
+`;
+
+const InfoButton = styled.button`
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 1.1rem;
+  padding: 0;
+  
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+const ChartHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  p.desc {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+  }
+`;
+
+function ChartBlock({ title, desc, contextNode, children }) {
+  const [showInfo, setShowInfo] = useState(false);
+  
+  return (
+    <ChartContainer>
+      <ChartHeader>
+        <div>
+          <h4>{title}</h4>
+          <p className="desc">{desc}</p>
+        </div>
+        <InfoButton onClick={() => setShowInfo(!showInfo)} title="Comprendre ce graphique">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+        </InfoButton>
+      </ChartHeader>
+      
+      {showInfo && (
+        <ContextText>
+          {contextNode}
+        </ContextText>
+      )}
+      
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {children}
+      </div>
+    </ChartContainer>
+  );
+}
+
 export default function TableauDeBordDepartement() {
   const { departementSelectionne, setDepartementSelectionne } = useObservatoire();
   const [activeTab, setActiveTab] = useState('demographie');
 
-  // Custom hook for simulated data
   const { data, loading, error } = useDepartementData(departementSelectionne?.code);
 
   if (!departementSelectionne) return null;
@@ -169,49 +248,61 @@ export default function TableauDeBordDepartement() {
           <>
             {activeTab === 'demographie' && (
               <>
-                <ChartContainer>
-                  <h4>La Tendance Sociale</h4>
-                  <p className="desc">Évolution du chômage et de la pauvreté</p>
+                <ChartBlock 
+                  title="La Tendance Sociale" 
+                  desc="Évolution du chômage et de la pauvreté"
+                  contextNode={<><strong>L'histoire derrière les chiffres :</strong> Le KPI global donne une "photo" à l'instant T, ce graphique donne le "film". Un département avec 15% de pauvreté qui est en chute libre depuis 3 ans raconte une histoire de succès économique. Le même taux en forte hausse annonce une crise. C'est indispensable pour contextualiser la donnée.</>}
+                >
                   <TendanceSocialeChart data={data.historique_social} />
-                </ChartContainer>
+                </ChartBlock>
 
-                <ChartContainer>
-                  <h4>Les Moteurs Démographiques</h4>
-                  <p className="desc">Variation pour 10 000 habitants (Naturel vs Migratoire)</p>
+                <ChartBlock 
+                  title="Les Moteurs Démographiques" 
+                  desc="Variation pour 10 000 habitants (Naturel vs Migratoire)"
+                  contextNode={<><strong>Analyse de vitalité :</strong> La carte montre le nombre d'habitants, ce graphique explique la dynamique. Avoir plus de décès que de naissances (solde naturel négatif) mais compensé par l'arrivée de retraités (migratoire positif) révèle un département vieillissant mais attractif, à l'inverse d'un territoire jeune.</>}
+                >
                   <MoteursDemographiquesChart data={data.demographie_actuelle.moteurs} />
-                </ChartContainer>
+                </ChartBlock>
               </>
             )}
 
             {activeTab === 'parc_global' && (
               <>
-                <ChartContainer>
-                  <h4>Nature de l'occupation</h4>
-                  <p className="desc">Répartition du parc immobilier global</p>
+                <ChartBlock 
+                  title="Nature de l'occupation" 
+                  desc="Répartition du parc immobilier global"
+                  contextNode={<><strong>Le thermomètre de la crise :</strong> Un fort taux de logements vacants signale un territoire en déprise (souvent rurale, logements abandonnés). À l'inverse, un fort taux de résidences secondaires pointe une pression touristique forte (effet "Airbnb") où les locaux n'arrivent plus à se loger.</>}
+                >
                   <OccupationParcChart data={data.parc_global.occupation} />
-                </ChartContainer>
+                </ChartBlock>
 
-                <ChartContainer>
-                  <h4>Volume de construction</h4>
-                  <p className="desc">Rythme actuel vs Moyenne décennale</p>
+                <ChartBlock 
+                  title="Volume de construction" 
+                  desc="Rythme actuel vs Moyenne décennale"
+                  contextNode={<><strong>Anticipation économique :</strong> C'est un indicateur de santé du BTP. Comparer l'année en cours à la décennie précédente permet de voir d'un seul coup d'œil si le secteur de l'immobilier est en train de s'effondrer ou s'il y a un boom de la construction locale.</>}
+                >
                   <ConstructionChart data={data.parc_global.construction} />
-                </ChartContainer>
+                </ChartBlock>
               </>
             )}
 
             {activeTab === 'parc_social' && (
               <>
-                <ChartContainer>
-                  <h4>Bilan de santé du parc social</h4>
-                  <p className="desc">Taux de vacance et de passoires thermiques</p>
+                <ChartBlock 
+                  title="Bilan de santé du parc social" 
+                  desc="Taux de vacance et de passoires thermiques"
+                  contextNode={<><strong>La réalité du terrain :</strong> Le KPI indique la "quantité" de logements sociaux. Ce graphique donne la "qualité". S'il y a beaucoup de passoires thermiques (classés E,F,G), cela signifie que les locataires, déjà précaires, explosent leur budget chauffage de manière critique.</>}
+                >
                   <SanteParcSocialChart data={data.parc_social.sante} />
-                </ChartContainer>
+                </ChartBlock>
 
-                <ChartContainer>
-                  <h4>Mouvements et Renouvellement</h4>
-                  <p className="desc">Attributions, destructions et cessions annuelles</p>
+                <ChartBlock 
+                  title="Mouvements et Renouvellement" 
+                  desc="Attributions, destructions et cessions annuelles"
+                  contextNode={<><strong>Action publique :</strong> Montre si le département gère passivement ou activement son parc. Beaucoup de démolitions et de nouvelles mises en location sont le signe d'une politique de rénovation urbaine agressive (destruction d'anciennes barres pour du neuf) plutôt que d'attentisme.</>}
+                >
                   <RenouvellementParcSocialChart data={data.parc_social.mouvements} />
-                </ChartContainer>
+                </ChartBlock>
               </>
             )}
           </>

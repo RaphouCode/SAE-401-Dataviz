@@ -25,11 +25,8 @@ const Main = styled.main`
 const ContentArea = styled.div`
   flex: 1;
   display: flex;
-  min-height: 600px;
-  max-height: 800px;
-  padding: 0;
-  gap: 0;
   position: relative;
+  overflow: hidden;
 `;
 
 const MapWrapper = styled.div`

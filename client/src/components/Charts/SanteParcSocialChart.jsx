@@ -1,19 +1,17 @@
-import { Radar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
   Legend
 } from 'chart.js';
 
 ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
   Legend
 );
@@ -30,12 +28,11 @@ export default function SanteParcSocialChart({ data }) {
       {
         label: 'Taux (%)',
         data: values,
-        backgroundColor: 'rgba(239, 68, 68, 0.2)', // Rouge clair
-        borderColor: '#ef4444',
-        pointBackgroundColor: '#ef4444',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: '#ef4444',
+        backgroundColor: [
+          '#0ea5e9', // Bleu pour vacance
+          '#f59e0b', // Orange pour passoires thermiques
+        ],
+        borderRadius: 4,
       }
     ]
   };
@@ -43,13 +40,11 @@ export default function SanteParcSocialChart({ data }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: 'y', // Barres horizontales pour une meilleure lisibilité
     scales: {
-      r: {
-        angleLines: {
-          display: true
-        },
-        suggestedMin: 0,
-        suggestedMax: Math.max(...values, 15) // Pour avoir une échelle correcte
+      x: {
+        beginAtZero: true,
+        suggestedMax: 20
       }
     },
     plugins: {
@@ -58,8 +53,8 @@ export default function SanteParcSocialChart({ data }) {
   };
 
   return (
-    <div style={{ height: '250px', width: '100%' }}>
-      <Radar data={chartData} options={options} />
+    <div style={{ height: '180px', width: '100%' }}>
+      <Bar data={chartData} options={options} />
     </div>
   );
 }

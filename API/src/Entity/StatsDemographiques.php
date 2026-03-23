@@ -20,7 +20,7 @@ class StatsDemographiques
 
     #[ORM\ManyToOne(inversedBy: 'statsDemographiques')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Groups(['departement', 'region'])]
+    #[Groups(['region'])]
     private ?Departement $departement = null;
 
     #[ORM\Column(type: Types::SMALLINT)]

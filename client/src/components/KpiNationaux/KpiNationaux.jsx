@@ -1,40 +1,11 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-const KPIS = [
-  {
-    id: 'pauvrete',
-    label: 'Taux de pauvreté',
-    value: '--',
-    description: 'Moyenne nationale',
-    color: '#dc2626',
-  },
-  {
-    id: 'logementSocial',
-    label: 'Logements sociaux',
-    value: '--',
-    description: 'Du parc résidentiel',
-    color: '#2563eb',
-  },
-  {
-    id: 'energivores',
-    label: 'Passoires thermiques',
-    value: '--',
-    description: 'Logements classés E, F, G',
-    color: '#d97706',
-  },
-  {
-    id: 'chomage',
-    label: 'Taux de chômage',
-    value: '--',
-    description: 'BIT, métropole',
-    color: '#7c3aed',
-  },
-];
+import { useObservatoire, CALQUES } from '../../context/ObservatoireContext';
 
 const Section = styled.section`
   padding: 1.5rem 2rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 `;
 
@@ -44,6 +15,19 @@ const Card = styled.article`
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-bottom: 3px solid transparent;
+  
+  &:hover {
+    transform: translateY(-2px);
+    border-bottom-color: ${props => props.$color};
+  }
+  
+  ${props => props.$isActive && `
+    border-bottom-color: ${props.$color};
+    background: rgba(0, 0, 0, 0.04);
+  `}
 `;
 
 const CardHeader = styled.div`
@@ -52,7 +36,6 @@ const CardHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 0.25rem;
 `;
-
 
 const Label = styled.p`
   font-size: 0.75rem;
@@ -77,10 +60,64 @@ const Description = styled.p`
 `;
 
 export default function KpiNationaux() {
+  const { calqueActif, setCalqueActif } = useObservatoire();
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/national/indicateurs')
+      .then(res => res.json())
+      .then(setData)
+      .catch(console.error);
+  }, []);
+
+  const KPIS = [
+    {
+      id: 'pauvrete',
+      label: 'Taux de pauvreté',
+      value: data && data.tauxPauvreteMoyen != null ? data.tauxPauvreteMoyen + '%' : '--',
+      description: 'Moyenne nationale',
+      color: '#dc2626',
+    },
+    {
+      id: 'logementSocial',
+      label: 'Logements sociaux',
+      value: data && data.tauxLogementsSociauxMoyen != null ? data.tauxLogementsSociauxMoyen + '%' : '--',
+      description: 'Du parc résidentiel',
+      color: '#2563eb',
+    },
+    {
+      id: 'energivores',
+      label: 'Passoires thermiques',
+      value: data && data.tauxEnergivoresMoyen != null ? data.tauxEnergivoresMoyen + '%' : '--',
+      description: 'Logements classés E, F, G',
+      color: '#d97706',
+    },
+    {
+      id: 'chomage',
+      label: 'Taux de chômage',
+      value: data && data.tauxChomageMoyen != null ? data.tauxChomageMoyen + '%' : '--',
+      description: 'BIT, métropole',
+      color: '#7c3aed',
+    },
+  ];
+
+  const handleKpiClick = (id) => {
+    const calque = CALQUES.find(c => c.id === id);
+    if (calque) setCalqueActif(calque);
+  };
+
   return (
     <Section aria-label="Indicateurs nationaux">
       {KPIS.map((kpi) => (
-        <Card key={kpi.id} $color={kpi.color}>
+        <Card 
+          key={kpi.id} 
+          $color={kpi.color} 
+          $isActive={calqueActif.id === kpi.id}
+          onClick={() => handleKpiClick(kpi.id)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleKpiClick(kpi.id)}
+        >
           <CardHeader>
             <Label>{kpi.label}</Label>
           </CardHeader>
