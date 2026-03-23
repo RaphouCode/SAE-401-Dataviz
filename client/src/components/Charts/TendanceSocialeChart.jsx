@@ -33,16 +33,22 @@ export default function TendanceSocialeChart({ data }) {
       {
         label: 'Taux de chômage (%)',
         data: chomage,
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-        tension: 0.3,
+        borderColor: '#0039a2', // Primary
+        backgroundColor: '#0039a2',
+        borderWidth: 3,
+        pointBackgroundColor: '#ffffff',
+        pointBorderWidth: 2,
+        tension: 0.4,
       },
       {
         label: 'Taux de pauvreté (%)',
         data: pauvrete,
-        borderColor: '#ef4444',
-        backgroundColor: 'rgba(239, 68, 68, 0.5)',
-        tension: 0.3,
+        borderColor: '#e9a2ef', // Accent
+        backgroundColor: '#e9a2ef',
+        borderWidth: 3,
+        pointBackgroundColor: '#ffffff',
+        pointBorderWidth: 2,
+        tension: 0.4,
       }
     ]
   };
@@ -51,17 +57,21 @@ export default function TendanceSocialeChart({ data }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'top' },
-      title: {
-        display: false,
+      legend: { 
+        position: 'top',
+        labels: { usePointStyle: true, boxWidth: 8, padding: 20 }
       },
+      title: { display: false },
     },
     scales: {
+      x: {
+        grid: { display: false }
+      },
       y: {
         min: 0,
+        grid: { borderDash: [4, 4] },
         title: {
-          display: true,
-          text: '%'
+          display: false,
         }
       }
     }

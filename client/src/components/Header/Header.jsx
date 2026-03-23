@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useObservatoire } from '../../context/ObservatoireContext';
+import logoSrc from '../../assets/logo_.svg';
 
 const DEPARTEMENTS_LIST = [
   { code: '01', nom: 'Ain' }, { code: '02', nom: 'Aisne' }, { code: '03', nom: 'Allier' },
@@ -45,15 +46,25 @@ const HeaderWrapper = styled.header`
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: ${({ theme }) => theme.colors.bg};
+  background: #ffffff;
   padding: 0 2rem;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.navy};
 `;
 
 const LogoSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  img {
+    height: 40px;
+    width: auto;
+  }
+
   h1 {
     font-size: 1.25rem;
     font-weight: 800;
@@ -227,10 +238,7 @@ export default function Header() {
   return (
     <HeaderWrapper>
       <LogoSection>
-        <h1>
-          Observatoire du Logement
-          <span>ET DE LA PRÉCARITÉ EN FRANCE</span>
-        </h1>
+        <img src={logoSrc} alt="Logo" />
       </LogoSection>
 
       <SearchContainer ref={wrapperRef}>

@@ -2,21 +2,24 @@ import { createGlobalStyle } from 'styled-components';
 
 export const theme = {
   colors: {
-    bg: '#ffffff',
+    bg: '#f4f7f9',
     bgCard: '#ffffff',
     bgCardHover: '#f9fafb',
-    border: '#e5e7eb',
-    accent: '#003366',
-    accentLight: '#0066cc',
-    accentGlow: 'rgba(0, 51, 102, 0.05)',
-    text: '#1a1a1a',
-    textMuted: '#6b7280',
+    border: '#e2e8f0',
+    primary: '#0039a2',
+    secondary: '#e9a2ef',
+    tertiary: '#f2bde7',
+    accent: '#0039a2', // Bleu pour les badges, etc.
+    accentLight: '#173672', // Bleu plus foncé
+    accentGlow: 'rgba(0, 57, 162, 0.1)',
+    text: '#0c2e57',
+    textMuted: '#64748b',
     textDim: '#4b5563',
     success: '#10b981',
     warning: '#f59e0b',
     danger: '#ef4444',
-    surface: '#f3f4f6',
-    navy: '#0b1a32',
+    surface: '#ffffff',
+    navy: '#0c2e57', // Bleu très sombre
   },
   radius: {
     sm: '6px',
@@ -32,8 +35,6 @@ export const theme = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;

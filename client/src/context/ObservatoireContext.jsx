@@ -9,6 +9,7 @@ export const CALQUES = [
     unit: '%',
     palette: 'Reds',
     description: 'Population sous le seuil de pauvreté',
+    color: '#dc2626',
   },
   {
     id: 'logementSocial',
@@ -16,6 +17,7 @@ export const CALQUES = [
     unit: '%',
     palette: 'Blues',
     description: 'Part des logements HLM',
+    color: '#2563eb',
   },
   {
     id: 'energivores',
@@ -23,6 +25,7 @@ export const CALQUES = [
     unit: '%',
     palette: 'YlOrRd',
     description: 'Logements classés E, F ou G',
+    color: '#d97706',
   },
   {
     id: 'chomage',
@@ -30,6 +33,7 @@ export const CALQUES = [
     unit: '%',
     palette: 'Purples',
     description: 'Taux de chômage au sens du BIT',
+    color: '#7c3aed',
   },
 ];
 

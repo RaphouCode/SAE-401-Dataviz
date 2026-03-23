@@ -82,7 +82,8 @@ export function useDepartementData(departementId) {
           departement: {
             code: dpt.code,
             nom: dpt.nom,
-            region: dpt.region?.nom || 'N/A'
+            region: dpt.region?.nom || 'N/A',
+            population: latestDemo.population || 0
           },
           historique_social: historiqueSocial,
           demographie_actuelle: {

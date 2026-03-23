@@ -6,27 +6,33 @@ const Section = styled.section`
   padding: 1.5rem 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  gap: 1.5rem;
+  background: #ffffff;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const Card = styled.article`
-  padding: 1.5rem 0;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border-bottom: 3px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  //border-radius: ${({ theme }) => theme.radius.md};
+  border: 1px solid transparent;
+  border-bottom: 4px solid transparent;
   
   &:hover {
     transform: translateY(-2px);
+    background: ${({ theme }) => theme.colors.bg};
     border-bottom-color: ${props => props.$color};
   }
   
   ${props => props.$isActive && `
     border-bottom-color: ${props.$color};
-    background: rgba(0, 0, 0, 0.04);
+    background: ${props.theme.colors.bg};
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   `}
 `;
 
@@ -109,9 +115,9 @@ export default function KpiNationaux() {
   return (
     <Section aria-label="Indicateurs nationaux">
       {KPIS.map((kpi) => (
-        <Card 
-          key={kpi.id} 
-          $color={kpi.color} 
+        <Card
+          key={kpi.id}
+          $color={kpi.color}
           $isActive={calqueActif.id === kpi.id}
           onClick={() => handleKpiClick(kpi.id)}
           role="button"

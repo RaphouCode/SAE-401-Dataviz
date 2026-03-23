@@ -43,13 +43,25 @@ const DashInfo = styled.div`
 
   .code-badge {
     display: inline-block;
-    margin-top: 0.5rem;
     font-size: 0.8rem;
     padding: 0.25rem 0.75rem;
     background: ${({ theme }) => theme.colors.accent};
     color: white;
     font-weight: 700;
   }
+`;
+
+const PopulationInfo = styled.span`
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.primary};
+  margin-left: 0.75rem;
+`;
+
+const BadgeRow = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
 `;
 
 const CloseBtn = styled.button`
@@ -180,7 +192,7 @@ const ChartHeader = styled.div`
 
 function ChartBlock({ title, desc, contextNode, children }) {
   const [showInfo, setShowInfo] = useState(false);
-  
+
   return (
     <ChartContainer>
       <ChartHeader>
@@ -190,17 +202,17 @@ function ChartBlock({ title, desc, contextNode, children }) {
         </div>
         <InfoButton onClick={() => setShowInfo(!showInfo)} title="Comprendre ce graphique">
           <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
         </InfoButton>
       </ChartHeader>
-      
+
       {showInfo && (
         <ContextText>
           {contextNode}
         </ContextText>
       )}
-      
+
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {children}
       </div>
@@ -222,7 +234,14 @@ export default function TableauDeBordDepartement() {
         <HeaderTop>
           <DashInfo>
             <h2>{departementSelectionne.nom}</h2>
-            <div className="code-badge">DÉPARTEMENT {departementSelectionne.code}</div>
+            <BadgeRow>
+              <div className="code-badge">Département {departementSelectionne.code}</div>
+              {data?.departement?.population > 0 && (
+                <PopulationInfo>
+                  {data.departement.population.toLocaleString('fr-FR')} habitants
+                </PopulationInfo>
+              )}
+            </BadgeRow>
           </DashInfo>
           <CloseBtn onClick={() => setDepartementSelectionne(null)}>✕</CloseBtn>
         </HeaderTop>
@@ -248,16 +267,16 @@ export default function TableauDeBordDepartement() {
           <>
             {activeTab === 'demographie' && (
               <>
-                <ChartBlock 
-                  title="La Tendance Sociale" 
+                <ChartBlock
+                  title="La Tendance Sociale"
                   desc="Évolution du chômage et de la pauvreté"
                   contextNode={<><strong>L'histoire derrière les chiffres :</strong> Le KPI global donne une "photo" à l'instant T, ce graphique donne le "film". Un département avec 15% de pauvreté qui est en chute libre depuis 3 ans raconte une histoire de succès économique. Le même taux en forte hausse annonce une crise. C'est indispensable pour contextualiser la donnée.</>}
                 >
                   <TendanceSocialeChart data={data.historique_social} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Les Moteurs Démographiques" 
+                <ChartBlock
+                  title="Les Moteurs Démographiques"
                   desc="Variation pour 10 000 habitants (Naturel vs Migratoire)"
                   contextNode={<><strong>Analyse de vitalité :</strong> La carte montre le nombre d'habitants, ce graphique explique la dynamique. Avoir plus de décès que de naissances (solde naturel négatif) mais compensé par l'arrivée de retraités (migratoire positif) révèle un département vieillissant mais attractif, à l'inverse d'un territoire jeune.</>}
                 >
@@ -268,16 +287,16 @@ export default function TableauDeBordDepartement() {
 
             {activeTab === 'parc_global' && (
               <>
-                <ChartBlock 
-                  title="Nature de l'occupation" 
+                <ChartBlock
+                  title="Nature de l'occupation"
                   desc="Répartition du parc immobilier global"
                   contextNode={<><strong>Le thermomètre de la crise :</strong> Un fort taux de logements vacants signale un territoire en déprise (souvent rurale, logements abandonnés). À l'inverse, un fort taux de résidences secondaires pointe une pression touristique forte (effet "Airbnb") où les locaux n'arrivent plus à se loger.</>}
                 >
                   <OccupationParcChart data={data.parc_global.occupation} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Volume de construction" 
+                <ChartBlock
+                  title="Volume de construction"
                   desc="Rythme actuel vs Moyenne décennale"
                   contextNode={<><strong>Anticipation économique :</strong> C'est un indicateur de santé du BTP. Comparer l'année en cours à la décennie précédente permet de voir d'un seul coup d'œil si le secteur de l'immobilier est en train de s'effondrer ou s'il y a un boom de la construction locale.</>}
                 >
@@ -288,16 +307,16 @@ export default function TableauDeBordDepartement() {
 
             {activeTab === 'parc_social' && (
               <>
-                <ChartBlock 
-                  title="Bilan de santé du parc social" 
+                <ChartBlock
+                  title="Bilan de santé du parc social"
                   desc="Taux de vacance et de passoires thermiques"
                   contextNode={<><strong>La réalité du terrain :</strong> Le KPI indique la "quantité" de logements sociaux. Ce graphique donne la "qualité". S'il y a beaucoup de passoires thermiques (classés E,F,G), cela signifie que les locataires, déjà précaires, explosent leur budget chauffage de manière critique.</>}
                 >
                   <SanteParcSocialChart data={data.parc_social.sante} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Mouvements et Renouvellement" 
+                <ChartBlock
+                  title="Mouvements et Renouvellement"
                   desc="Attributions, destructions et cessions annuelles"
                   contextNode={<><strong>Action publique :</strong> Montre si le département gère passivement ou activement son parc. Beaucoup de démolitions et de nouvelles mises en location sont le signe d'une politique de rénovation urbaine agressive (destruction d'anciennes barres pour du neuf) plutôt que d'attentisme.</>}
                 >

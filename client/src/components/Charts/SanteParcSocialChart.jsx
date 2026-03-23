@@ -29,10 +29,11 @@ export default function SanteParcSocialChart({ data }) {
         label: 'Taux (%)',
         data: values,
         backgroundColor: [
-          '#0ea5e9', // Bleu pour vacance
+          '#0039a2', // Bleu pour vacance
           '#f59e0b', // Orange pour passoires thermiques
         ],
-        borderRadius: 4,
+        borderRadius: 6,
+        barThickness: 32,
       }
     ]
   };
@@ -44,7 +45,11 @@ export default function SanteParcSocialChart({ data }) {
     scales: {
       x: {
         beginAtZero: true,
-        suggestedMax: 20
+        suggestedMax: 20,
+        grid: { borderDash: [4, 4] }
+      },
+      y: {
+        grid: { display: false }
       }
     },
     plugins: {

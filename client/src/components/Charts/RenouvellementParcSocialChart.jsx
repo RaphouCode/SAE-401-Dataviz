@@ -31,10 +31,12 @@ export default function RenouvellementParcSocialChart({ data }) {
         label: 'Mouvements (unités)',
         data: values,
         backgroundColor: [
-          '#10b981', // Vert pour 'Mis en location'
-          '#ef4444', // Rouge pour 'Démolis'
-          '#f59e0b', // Orange pour 'Vendus'
+          '#0039a2', // Primary pour 'Mis en location'
+          '#173672', // Secondary pour 'Démolis'
+          '#e9a2ef', // Accent pour 'Vendus'
         ],
+        borderRadius: 6,
+        barThickness: 36,
       }
     ]
   };
@@ -46,8 +48,12 @@ export default function RenouvellementParcSocialChart({ data }) {
       legend: { display: false },
     },
     scales: {
+      x: {
+        grid: { display: false }
+      },
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        grid: { borderDash: [4, 4] }
       }
     }
   };

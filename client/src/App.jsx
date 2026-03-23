@@ -8,6 +8,22 @@ import CarteChoroplethe from './components/CarteChoroplethe/CarteChoroplethe';
 import Sidebar from './components/Sidebar/Sidebar';
 import Footer from './components/Footer/Footer';
 
+// import { Chart as ChartJS, defaults } from 'chart.js';
+
+// --- Configuration Globale Chart.js (Esthétique moderne & intégrée) ---
+/*
+defaults.font.family = "'Inter', system-ui, -apple-system, sans-serif";
+defaults.color = '#64748b'; // Couleur du texte (Muted)
+defaults.scale.grid.color = '#e2e8f0'; // Lignes de grille (Light)
+defaults.plugins.tooltip.backgroundColor = 'rgba(12, 46, 87, 0.95)'; // Fond Navy profond
+defaults.plugins.tooltip.titleColor = '#ffffff';
+defaults.plugins.tooltip.bodyColor = '#f4f7f9';
+defaults.plugins.tooltip.padding = 10;
+defaults.plugins.tooltip.cornerRadius = 6;
+defaults.plugins.tooltip.displayColors = true; // Garder les couleurs dans le tooltip pour info
+*/
+// ----------------------------------------------------------------------
+
 const AppWrapper = styled.div`
   min-height: 100vh;
   display: flex;

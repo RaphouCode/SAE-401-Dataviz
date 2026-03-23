@@ -151,8 +151,18 @@ export default function CarteChoroplethe() {
       style={{ width: '100%', height: '100%' }}
     >
       <Geographies geography={GEO_URL}>
-        {({ geographies }) =>
-          geographies.map(geo => {
+        {({ geographies }) => {
+          // On s'assure que le département sélectionné est rendu en DERNIER, afin que 
+          // sa bordure et son ombre ne soient pas masquées par les départements voisins.
+          const sortedGeos = [...geographies].sort((a, b) => {
+            const aCode = a.properties.code || a.properties.CODE_DEP || a.properties.num_dep;
+            const bCode = b.properties.code || b.properties.CODE_DEP || b.properties.num_dep;
+            if (departementSelectionne?.code === aCode) return 1;
+            if (departementSelectionne?.code === bCode) return -1;
+            return 0;
+          });
+
+          return sortedGeos.map(geo => {
             const geoCode = geo.properties.code || geo.properties.CODE_DEP || geo.properties.num_dep;
             const isSelected = departementSelectionne?.code === geoCode;
 
@@ -168,26 +178,30 @@ export default function CarteChoroplethe() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                fill={isSelected ? '#0066cc' : defaultFill}
-                stroke={isSelected ? '#003366' : '#cbd5e1'}
-                strokeWidth={isSelected ? 1.5 : 0.5}
+                fill={defaultFill}
+                stroke={isSelected ? '#0c2e57' : '#cbd5e1'}
+                strokeWidth={isSelected ? 3 : 0.5}
                 onMouseEnter={(e) => setHovered({ x: e.clientX, y: e.clientY, nom: geo.properties.nom, valeur: value })}
                 onMouseMove={(e) => setHovered(h => ({ ...h, x: e.clientX, y: e.clientY }))}
-                onMouseLeave={(e) => {
-                  // Only remove hover text if we actually left the geography, 
-                  // to avoid flickering if we enter another one rapidly.
-                  setHovered(null);
-                }}
+                onMouseLeave={() => setHovered(null)}
                 onClick={() => handleClick(geo)}
                 style={{
-                  default: { outline: 'none' },
-                  hover: { fill: isSelected ? '#0066cc' : hoverFill, outline: 'none', cursor: 'pointer' },
+                  default: {
+                    outline: 'none',
+                    filter: isSelected ? 'drop-shadow(0px 2px 6px rgba(12, 46, 87, 0.4))' : 'none',
+                  },
+                  hover: {
+                    fill: hoverFill,
+                    outline: 'none',
+                    cursor: 'pointer',
+                    filter: isSelected ? 'drop-shadow(0px 2px 6px rgba(12, 46, 87, 0.4))' : 'none',
+                  },
                   pressed: { outline: 'none' },
                 }}
               />
             );
-          })
-        }
+          });
+        }}
       </Geographies>
     </ComposableMap>
   );
@@ -195,11 +209,22 @@ export default function CarteChoroplethe() {
     const dptData = mapData[code];
     const value = dptData ? dptData[metricKey] : null;
     const hasData = value != null;
-    const fill = hasData ? colorScale(value) : '#f8fafc';
+    const isSelected = departementSelectionne?.code === code;
+
+    // Garder la couleur de la stat, pas de calque !
+    let fill = hasData ? colorScale(value) : '#f8fafc';
 
     return (
       <DomItem
-        style={{ backgroundColor: fill, cursor: 'pointer' }}
+        style={{
+          backgroundColor: fill,
+          cursor: 'pointer',
+          border: isSelected ? '3px solid #0c2e57' : '1px solid #cbd5e1',
+          transform: isSelected ? 'scale(1.15) translateY(-5px)' : 'scale(1)',
+          boxShadow: isSelected ? '0px 8px 15px rgba(12, 46, 87, 0.25)' : 'none',
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          zIndex: isSelected ? 10 : 1
+        }}
         onClick={() => handleClick({ properties: { code, nom } })}
         onMouseEnter={(e) => setHovered({ x: e.clientX, y: e.clientY, nom, valeur: value })}
         onMouseMove={(e) => setHovered(h => ({ ...h, x: e.clientX, y: e.clientY }))}
@@ -209,7 +234,7 @@ export default function CarteChoroplethe() {
         <div style={{
           position: 'absolute', top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
-          fontWeight: '800', fontSize: '0.85rem', 
+          fontWeight: '800', fontSize: '0.85rem',
           color: hasData ? '#fff' : '#94a3b8',
           textShadow: hasData ? '0 1px 3px rgba(0,0,0,0.6)' : 'none'
         }}>

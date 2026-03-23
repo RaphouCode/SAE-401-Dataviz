@@ -31,9 +31,11 @@ export default function ConstructionChart({ data }) {
         label: 'Volume de construction',
         data: values,
         backgroundColor: [
-          '#9ca3af', // Gris pour 'Moyenne 10 ans'
-          '#8b5cf6', // Violet pour 'Année en cours'
+          '#cbd5e1', // Gris élégant pour 'Moyenne 10 ans'
+          '#0c2e57', // Navy profond pour 'Année en cours'
         ],
+        borderRadius: 6,
+        barThickness: 40,
       }
     ]
   };
@@ -45,8 +47,12 @@ export default function ConstructionChart({ data }) {
       legend: { display: false },
     },
     scales: {
+      x: {
+        grid: { display: false }
+      },
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        grid: { borderDash: [4, 4] }
       }
     }
   };

@@ -20,11 +20,13 @@ export default function OccupationParcChart({ data }) {
       {
         data: values,
         backgroundColor: [
-          '#3b82f6', // Principales
-          '#ef4444', // Vacants
-          '#10b981', // Secondaires
+          '#0039a2', // Principales (Primary)
+          '#e9a2ef', // Vacants (Accent)
+          '#173672', // Secondaires (Secondary)
         ],
-        borderWidth: 1,
+        borderColor: '#ffffff',
+        borderWidth: 2,
+        hoverOffset: 4
       },
     ],
   };
@@ -33,9 +35,12 @@ export default function OccupationParcChart({ data }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'right' },
+      legend: { 
+        position: 'right',
+        labels: { usePointStyle: true, padding: 15 }
+      },
     },
-    cutout: '60%',
+    cutout: '65%',
   };
 
   return (

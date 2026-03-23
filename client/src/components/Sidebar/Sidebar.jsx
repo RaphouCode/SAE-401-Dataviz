@@ -15,7 +15,7 @@ const slideInMobile = keyframes`
 const Overlay = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: ${({ $open }) => ($open ? 'block' : 'none')};
     position: fixed;
     inset: 0;
@@ -26,15 +26,16 @@ const Overlay = styled.div`
 `;
 
 const Panel = styled.aside`
-  width: min(400px, 35vw);
+  width: min(550px, 42vw);
   background: white;
+  border-left: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   animation: ${slideIn} 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   z-index: 100;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -51,7 +52,7 @@ const Panel = styled.aside`
 const HandleBar = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     justify-content: center;
     padding: 1rem 0 0;

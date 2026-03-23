@@ -26,7 +26,10 @@ export default function MoteursDemographiquesChart({ data }) {
     datasets: data.map(d => ({
       label: d.type,
       data: [d.valeur],
-      backgroundColor: d.type === 'Naturel' ? '#10b981' : '#f59e0b',
+      // `#0039a2` for Naturel, `#f2bde7` for Migratoire for brand consistency
+      backgroundColor: d.type === 'Naturel' ? '#0039a2' : '#f2bde7',
+      borderRadius: 6,
+      barThickness: 32,
     }))
   };
 
@@ -35,19 +38,21 @@ export default function MoteursDemographiquesChart({ data }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'top' },
+      legend: { 
+        position: 'top',
+        labels: { usePointStyle: true, boxWidth: 8, padding: 20 }
+      },
     },
     scales: {
       x: {
         stacked: true,
-        title: {
-          display: true,
-          text: 'Variation pour 10 000 hab'
-        }
+        grid: { borderDash: [4, 4] },
+        title: { display: false }
       },
       y: {
         stacked: true,
-        display: false
+        display: false,
+        grid: { display: false }
       }
     }
   };
