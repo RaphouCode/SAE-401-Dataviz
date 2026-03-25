@@ -37,7 +37,7 @@ const InsetBox = styled.div`
   position: absolute;
   overflow: hidden;
   cursor: pointer;
-  
+
   &.idf {
     top: 1.5rem;
     right: 1.5rem;
@@ -183,7 +183,15 @@ export default function CarteChoroplethe() {
                 strokeWidth={isSelected ? 3 : 0.5}
                 onMouseEnter={(e) => setHovered({ x: e.clientX, y: e.clientY, nom: geo.properties.nom, valeur: value })}
                 onMouseMove={(e) => setHovered(h => ({ ...h, x: e.clientX, y: e.clientY }))}
+<<<<<<< HEAD
                 onMouseLeave={() => setHovered(null)}
+=======
+                onMouseLeave={(e) => {
+                  // Only remove hover text if we actually left the geography,
+                  // to avoid flickering if we enter another one rapidly.
+                  setHovered(null);
+                }}
+>>>>>>> bcee9aef2a37eef1a84bd089d22cd9699a7f7e0e
                 onClick={() => handleClick(geo)}
                 style={{
                   default: {

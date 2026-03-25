@@ -18,21 +18,33 @@ const Card = styled.article`
   gap: 0.5rem;
   position: relative;
   cursor: pointer;
+<<<<<<< HEAD
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   //border-radius: ${({ theme }) => theme.radius.md};
   border: 1px solid transparent;
   border-bottom: 4px solid transparent;
   
+=======
+  transition: all 0.2s ease-in-out;
+  border-bottom: 3px solid transparent;
+  border-radius: 4px;
+
+>>>>>>> bcee9aef2a37eef1a84bd089d22cd9699a7f7e0e
   &:hover {
     transform: translateY(-2px);
     background: ${({ theme }) => theme.colors.bg};
     border-bottom-color: ${props => props.$color};
   }
-  
+
   ${props => props.$isActive && `
     border-bottom-color: ${props.$color};
+<<<<<<< HEAD
     background: ${props.theme.colors.bg};
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+=======
+    background: ${props.$color}15;
+    box-shadow: 0 4px 12px ${props.$color}20;
+>>>>>>> bcee9aef2a37eef1a84bd089d22cd9699a7f7e0e
   `}
 `;
 

@@ -29,6 +29,18 @@ class StatistiqueController extends AbstractController
         return $this->json($departements, 200, [], ['groups' => 'departement']);
     }
 
+    #[Route('/api/departements/{code}', methods: ['GET'], requirements: ['code' => '\\d+'])]
+    public function departementDetail(string $code, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $departement = $entityManager->getRepository(Departement::class)->findOneBy(['code' => $code]);
+
+        if (!$departement) {
+            return $this->json(['error' => 'Département non trouvé'], 404);
+        }
+
+        return $this->json($departement, 200, [], ['groups' => 'departement']);
+    }
+
     #[Route('/api/regions', methods: ['GET'])]
     public function region(EntityManagerInterface $entityManager): JsonResponse
     {
@@ -117,7 +129,7 @@ class StatistiqueController extends AbstractController
                 : null
         );
 
-        return $this->json([
+        $response = $this->json([
             'tauxPauvreteMoyen' => $moyenne($demographiques, fn($s) => $s->getTauxPauvrete() !== null ? (float) $s->getTauxPauvrete() : null),
             'tauxChomageMoyen' => $moyenne($demographiques, fn($s) => $s->getTauxChomage() !== null ? (float) $s->getTauxChomage() : null),
             'tauxLogementsSociauxMoyen' => $moyenne($logements, fn($s) => $s->getTauxLogementsSociaux() !== null ? (float) $s->getTauxLogementsSociaux() : null),
@@ -125,6 +137,8 @@ class StatistiqueController extends AbstractController
             'nbRecordsDemographiques' => count($demographiques),
             'nbRecordsLogement' => count($logements),
         ], 200);
+
+        return $this->addCorsHeaders($response);
     }
 
     #[Route('/api/map/donnees', methods: ['GET'])]
@@ -153,6 +167,14 @@ class StatistiqueController extends AbstractController
             ];
         }
 
-        return $this->json($mapData, 200);
+        return $this->addCorsHeaders($this->json($mapData, 200));
+    }
+
+    private function addCorsHeaders(JsonResponse $response): JsonResponse
+    {
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
+        return $response;
     }
 }

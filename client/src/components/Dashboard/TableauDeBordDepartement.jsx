@@ -75,7 +75,7 @@ const CloseBtn = styled.button`
   justify-content: center;
   font-size: 1.25rem;
   font-weight: 300;
-  
+
   &:hover {
     background: #f1f5f9;
     color: #0f172a;
@@ -96,7 +96,7 @@ const TabButton = styled.button`
   border-bottom: 3px solid ${({ $active, theme }) => ($active ? theme.colors.primary : 'transparent')};
   background: none;
   cursor: pointer;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -118,14 +118,14 @@ const ChartContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   h4 {
     font-size: 0.9rem;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
   }
-  
+
   p.desc {
     font-size: 0.8rem;
     color: #64748b;
@@ -164,7 +164,7 @@ const InfoButton = styled.button`
   height: 24px;
   font-size: 1.1rem;
   padding: 0;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -175,14 +175,14 @@ const ChartHeader = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
-  
+
   h4 {
     font-size: 0.9rem;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
   }
-  
+
   p.desc {
     font-size: 0.8rem;
     color: #64748b;
