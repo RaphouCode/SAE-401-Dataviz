@@ -18,15 +18,17 @@ const Card = styled.article`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-bottom: 3px solid transparent;
-  
+  border-radius: 4px;
+
   &:hover {
     transform: translateY(-2px);
     border-bottom-color: ${props => props.$color};
   }
-  
+
   ${props => props.$isActive && `
     border-bottom-color: ${props.$color};
-    background: rgba(0, 0, 0, 0.04);
+    background: ${props.$color}15;
+    box-shadow: 0 4px 12px ${props.$color}20;
   `}
 `;
 
@@ -109,9 +111,9 @@ export default function KpiNationaux() {
   return (
     <Section aria-label="Indicateurs nationaux">
       {KPIS.map((kpi) => (
-        <Card 
-          key={kpi.id} 
-          $color={kpi.color} 
+        <Card
+          key={kpi.id}
+          $color={kpi.color}
           $isActive={calqueActif.id === kpi.id}
           onClick={() => handleKpiClick(kpi.id)}
           role="button"

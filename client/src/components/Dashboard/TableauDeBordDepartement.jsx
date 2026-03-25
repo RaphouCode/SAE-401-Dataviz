@@ -63,7 +63,7 @@ const CloseBtn = styled.button`
   justify-content: center;
   font-size: 1.25rem;
   font-weight: 300;
-  
+
   &:hover {
     background: #f1f5f9;
     color: #0f172a;
@@ -84,7 +84,7 @@ const TabButton = styled.button`
   border-bottom: 3px solid ${({ $active, theme }) => ($active ? theme.colors.primary : 'transparent')};
   background: none;
   cursor: pointer;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -106,14 +106,14 @@ const ChartContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   h4 {
     font-size: 0.9rem;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
   }
-  
+
   p.desc {
     font-size: 0.8rem;
     color: #64748b;
@@ -152,7 +152,7 @@ const InfoButton = styled.button`
   height: 24px;
   font-size: 1.1rem;
   padding: 0;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
@@ -163,14 +163,14 @@ const ChartHeader = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
-  
+
   h4 {
     font-size: 0.9rem;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
   }
-  
+
   p.desc {
     font-size: 0.8rem;
     color: #64748b;
@@ -180,7 +180,7 @@ const ChartHeader = styled.div`
 
 function ChartBlock({ title, desc, contextNode, children }) {
   const [showInfo, setShowInfo] = useState(false);
-  
+
   return (
     <ChartContainer>
       <ChartHeader>
@@ -194,13 +194,13 @@ function ChartBlock({ title, desc, contextNode, children }) {
           </svg>
         </InfoButton>
       </ChartHeader>
-      
+
       {showInfo && (
         <ContextText>
           {contextNode}
         </ContextText>
       )}
-      
+
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {children}
       </div>
@@ -248,16 +248,16 @@ export default function TableauDeBordDepartement() {
           <>
             {activeTab === 'demographie' && (
               <>
-                <ChartBlock 
-                  title="La Tendance Sociale" 
+                <ChartBlock
+                  title="La Tendance Sociale"
                   desc="Évolution du chômage et de la pauvreté"
                   contextNode={<><strong>L'histoire derrière les chiffres :</strong> Le KPI global donne une "photo" à l'instant T, ce graphique donne le "film". Un département avec 15% de pauvreté qui est en chute libre depuis 3 ans raconte une histoire de succès économique. Le même taux en forte hausse annonce une crise. C'est indispensable pour contextualiser la donnée.</>}
                 >
                   <TendanceSocialeChart data={data.historique_social} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Les Moteurs Démographiques" 
+                <ChartBlock
+                  title="Les Moteurs Démographiques"
                   desc="Variation pour 10 000 habitants (Naturel vs Migratoire)"
                   contextNode={<><strong>Analyse de vitalité :</strong> La carte montre le nombre d'habitants, ce graphique explique la dynamique. Avoir plus de décès que de naissances (solde naturel négatif) mais compensé par l'arrivée de retraités (migratoire positif) révèle un département vieillissant mais attractif, à l'inverse d'un territoire jeune.</>}
                 >
@@ -268,16 +268,16 @@ export default function TableauDeBordDepartement() {
 
             {activeTab === 'parc_global' && (
               <>
-                <ChartBlock 
-                  title="Nature de l'occupation" 
+                <ChartBlock
+                  title="Nature de l'occupation"
                   desc="Répartition du parc immobilier global"
                   contextNode={<><strong>Le thermomètre de la crise :</strong> Un fort taux de logements vacants signale un territoire en déprise (souvent rurale, logements abandonnés). À l'inverse, un fort taux de résidences secondaires pointe une pression touristique forte (effet "Airbnb") où les locaux n'arrivent plus à se loger.</>}
                 >
                   <OccupationParcChart data={data.parc_global.occupation} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Volume de construction" 
+                <ChartBlock
+                  title="Volume de construction"
                   desc="Rythme actuel vs Moyenne décennale"
                   contextNode={<><strong>Anticipation économique :</strong> C'est un indicateur de santé du BTP. Comparer l'année en cours à la décennie précédente permet de voir d'un seul coup d'œil si le secteur de l'immobilier est en train de s'effondrer ou s'il y a un boom de la construction locale.</>}
                 >
@@ -288,16 +288,16 @@ export default function TableauDeBordDepartement() {
 
             {activeTab === 'parc_social' && (
               <>
-                <ChartBlock 
-                  title="Bilan de santé du parc social" 
+                <ChartBlock
+                  title="Bilan de santé du parc social"
                   desc="Taux de vacance et de passoires thermiques"
                   contextNode={<><strong>La réalité du terrain :</strong> Le KPI indique la "quantité" de logements sociaux. Ce graphique donne la "qualité". S'il y a beaucoup de passoires thermiques (classés E,F,G), cela signifie que les locataires, déjà précaires, explosent leur budget chauffage de manière critique.</>}
                 >
                   <SanteParcSocialChart data={data.parc_social.sante} />
                 </ChartBlock>
 
-                <ChartBlock 
-                  title="Mouvements et Renouvellement" 
+                <ChartBlock
+                  title="Mouvements et Renouvellement"
                   desc="Attributions, destructions et cessions annuelles"
                   contextNode={<><strong>Action publique :</strong> Montre si le département gère passivement ou activement son parc. Beaucoup de démolitions et de nouvelles mises en location sont le signe d'une politique de rénovation urbaine agressive (destruction d'anciennes barres pour du neuf) plutôt que d'attentisme.</>}
                 >
