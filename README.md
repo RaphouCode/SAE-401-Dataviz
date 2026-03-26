@@ -1,15 +1,15 @@
-# 📊 Observatoire Dataviz Connecté (SAE 401)
+# Observatoire Dataviz Connecté (SAE 401)
 
 Ce projet est une application web complète (Front-end React & Back-end Symfony) permettant de visualiser des KPI nationaux et départementaux français à travers une carte interactive.
 
-## 🚀 Architecture du projet
+## Architecture du projet
 - **`/API`** : Back-end Symfony 7 (PHP 8.2+). Fournit les données depuis la base de données via une API REST.
 - **`/client`** : Front-end React 18 / Vite. Consomme l'API et gère l'interface (carte choroplèthe interactive, graphiques).
 - **`database.sql`** : Le dump MySQL complet contenant la structure et les données nécessaires.
 
 ---
 
-## 🛠️ Prérequis de lancement
+## Prérequis de lancement
 Pour lancer ce projet en local, vous aurez besoin de :
 1. **PHP 8.2+** et **Composer** (pour Symfony).
 2. **Node.js** (pour React/Vite).
@@ -17,7 +17,7 @@ Pour lancer ce projet en local, vous aurez besoin de :
 
 ---
 
-## ⚙️ Installation & Lancement Étape par Étape
+## Installation & Lancement Étape par Étape
 
 ### Étape 1 : Initialiser la Base de Données
 1. Lancez votre serveur MySQL (ex: lancez XAMPP et démarrez Apache & MySQL).
@@ -57,8 +57,8 @@ _Si vos identifiants sont différents, modifiez `DATABASE_URL` dans `API/.env.lo
    npm run dev
    ```
 
-🎉 L'application s'ouvrira dans votre navigateur. Le front-end passera par le proxy configuré pour interroger directement le serveur Symfony local et afficher les données !
+ L'application s'ouvrira dans votre navigateur. Le front-end passera par le proxy configuré pour interroger directement le serveur Symfony local et afficher les données !
 
 ---
-### ⚠️ Note en cas d'erreur 400 ou problème Proxy
+### Note en cas d'erreur 400 ou problème Proxy
 Vite est configuré via `--host` proxy vers `https://127.0.0.1:8001` par défaut. Si votre serveur Symfony démarre sur `8000`, remplacez simplement `8001` par le bon port dans le fichier `client/vite.config.js`.
